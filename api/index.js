@@ -26,7 +26,7 @@ app.use('/users',userRouter)
 app.use('/recipes',recipeRouter)
 
 
-app.get("/", (req, res) => res.send("Express on Vercel"));
+app.get("/", (req, res) => res.send("Express on Vercelㅋ"));
 
 app.listen(config.PORT,()=>{
     console.log(`this Port is ${config.PORT}`)
