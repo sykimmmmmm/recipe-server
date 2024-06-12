@@ -1,9 +1,9 @@
 const express = require('express')
 const app = express()
-const userRouter = require('./src/routes/users')
-const recipeRouter = require('./src/routes/recipe')
+const userRouter = require('../src/routes/users')
+const recipeRouter = require('../src/routes/recipe')
 const mongoose = require('mongoose')
-const config = require('./config')
+const config = require('../config')
 const cors = require('cors')
 const logger = require('morgan')
 const path = require('path')
@@ -26,6 +26,7 @@ app.use('/users',userRouter)
 app.use('/recipes',recipeRouter)
 
 
+app.get("/", (req, res) => res.send("Express on Vercel"));
 
 app.listen(config.PORT,()=>{
     console.log(`this Port is ${config.PORT}`)
