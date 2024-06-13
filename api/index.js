@@ -18,7 +18,7 @@ const corsOption = {
 app.use(cors(corsOption))
 app.use(express.json())
 app.use(logger('tiny'))
-app.use(express.static(publicPath))
+app.use(express.static('/public'))
 
 console.log('몽고아틀라스 주소: ',process.env.MONGODB_URI)
 mongoose.connect(process.env.MONGODB_URI)
