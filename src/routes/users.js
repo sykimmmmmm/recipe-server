@@ -113,6 +113,7 @@ router.get('/mypage/:id',expressAsyncHandler(async(req,res,next)=>{
 
 /* 리뷰작성 */
 router.post('/review',isAuth,upload.single('img'),expressAsyncHandler(async(req,res,next)=>{
+    console.log(req.file)
     const user = await User.findOne({_id:req.user._id})
     const recipe = await Recipe.findOne({_id:req.body.recipeId})
     const review = new Review({

@@ -37,6 +37,7 @@ router.post('/upload', isAuth,upload.fields([{name:'recipeImage'},{name:'id'},{n
     const recipeImages = req.files.recipeImage
     const finishedImages = req.files.finishedImgs
     const orders = req.body.id
+    console.log(req.files)
     if(req.fileValidationError){
         res.json({code:400,message:req.fileValidationError})
     }else{
