@@ -56,7 +56,7 @@ const upload2 = multer()
     }
 ) */
 // 서버에 이미지 저장
-router.post('/upload', isAuth,upload.fields([{name:'recipeImage'},{name:'id'},{name:'finishedImgs'}]),upload2.none(), expressAsyncHandler( async (req,res,next)=>{
+router.post('/upload', isAuth,upload.fields([{name:'recipeImage'},{name:'id'},{name:'finishedImgs'}]), expressAsyncHandler( async (req,res,next)=>{
     const recipeImages = req.files.recipeImage
     const finishedImages = req.files.finishedImgs
     const orders = req.body.id
