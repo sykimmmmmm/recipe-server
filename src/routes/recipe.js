@@ -3,13 +3,36 @@ const Recipe = require('../models/Recipe')
 const Image = require('../models/Image')
 const User = require('../models/User')
 const Counter = require('../models/Counter')
+const Review = require('../models/Review')
 const expressAsyncHandler = require('express-async-handler')
 const {isAuth, isAdmin } = require('../../auth')
 const router = express.Router()
+const AWS = require('aws-sdk')
 const multer = require('multer')
+const multerS3 = require('multer-s3')
 const path = require('path')
-const Review = require('../models/Review')
+
+AWS.config.update({
+    accessKeyId:process.env.AWS_ACCESS_KEY_ID,
+    secretAccessKey:process.env.AWS_SECRET_ACCESS_KEY,
+    region:process.env.AWS_REGION
+})
+
 const upload = multer({
+    storage: multerS3({
+        s3:new AWS.S3(),
+        bucket:'recipelabs.app',
+        acl:'public-read',
+        contentType: multerS3.AUTO_CONTENT_TYPE,
+        key(req,file,cb){
+            cb(null,`cookingImgs/${Date.now()}_${path.basename(file.originalname)}`)
+        },
+    }),
+    limits:{fileSize: 5 * 1024 * 1024 },
+})
+const upload2 = multer()
+
+/* const upload = multer({
     storage: multer.diskStorage({
         destination: function( req, file, cb){
             cb(null,'uploads/')
@@ -31,9 +54,9 @@ const upload = multer({
             }
         }
     }
-)
+) */
 // 서버에 이미지 저장
-router.post('/upload', isAuth,upload.fields([{name:'recipeImage'},{name:'id'},{name:'finishedImgs'}]), expressAsyncHandler( async (req,res,next)=>{
+router.post('/upload', isAuth,upload.fields([{name:'recipeImage'},{name:'id'},{name:'finishedImgs'}]),upload2.none(), expressAsyncHandler( async (req,res,next)=>{
     const recipeImages = req.files.recipeImage
     const finishedImages = req.files.finishedImgs
     const orders = req.body.id
