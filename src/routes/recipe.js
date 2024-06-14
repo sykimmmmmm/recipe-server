@@ -67,7 +67,7 @@ router.post('/upload', isAuth,upload.fields([{name:'recipeImage'},{name:'id'},{n
         const neworders = (orders.length>1 && orders.filter(a=>a!=='undefined')) || orders
         const cookingImgs = await Promise.allSettled(recipeImages && recipeImages.map((file,id)=>{
             const recipeImage = new Image({
-                path: file.path.slice(6,file.path.length),
+                path: file.location,
                 order: neworders[id]
             })
             const newRecipeImage = recipeImage.save()
@@ -77,7 +77,7 @@ router.post('/upload', isAuth,upload.fields([{name:'recipeImage'},{name:'id'},{n
         })
         const finishedImgs = await Promise.allSettled(finishedImages && finishedImages.map((file)=>{
             const finishedImage = new Image({
-                path: file.path.slice(6,file.path.length)
+                path: file.location
             })
             const newFinishedImage = finishedImage.save()
             return newFinishedImage
