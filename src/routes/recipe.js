@@ -61,6 +61,7 @@ router.post('/upload', isAuth,upload.fields([{name:'recipeImage'},{name:'id'},{n
     const finishedImages = req.files.finishedImgs
     const orders = req.body.id
     console.log(req.files)
+    console.log(req.body.id)
     if(req.fileValidationError){
         res.json({code:400,message:req.fileValidationError})
     }else{
@@ -96,7 +97,6 @@ router.post('/add-recipe',isAuth,expressAsyncHandler( async (req,res,next)=>{
         let count = counter.recipeId
         const recipe = new Recipe({
             recipeTitle: req.body.recipeTitle,
-            name: req.body.name,
             description: req.body.description,
             author: req.user._id,
             info: req.body.info,

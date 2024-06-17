@@ -6,9 +6,6 @@ const mongoose = require('mongoose')
 const config = require('../config')
 const cors = require('cors')
 const logger = require('morgan')
-const path = require('path')
-
-const publicPath = path.join(__dirname, '/public')
 
 const corsOption = {
     origin:'*',
@@ -18,7 +15,6 @@ const corsOption = {
 app.use(cors(corsOption))
 app.use(express.json())
 app.use(logger('tiny'))
-app.use(express.static('./uploads'))
 
 console.log('몽고아틀라스 주소: ',process.env.MONGODB_URI)
 mongoose.connect(process.env.MONGODB_URI)

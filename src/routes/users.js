@@ -6,9 +6,30 @@ const Counter = require('../models/Counter')
 const Review = require('../models/Review')
 const router = express.Router()
 const multer = require('multer')
+const AWS = require('aws-sdk')
+const multerS3 = require('multer-s3')
 const path = require('path')
 const Recipe = require('../models/Recipe')
+
+AWS.config.update({
+    accessKeyId:process.env.AWS_ACCESS_KEY_ID,
+    secretAccessKey:process.env.AWS_SECRET_ACCESS_KEY,
+    region:process.env.AWS_REGION
+})
+
 const upload = multer({
+    storage: multerS3({
+        s3:new AWS.S3(),
+        bucket:'recipelabs.app',
+        acl:'public-read',
+        contentType: multerS3.AUTO_CONTENT_TYPE,
+        key(req,file,cb){
+            cb(null,`reviews/${Date.now()}_${path.basename(file.originalname)}`)
+        },
+    }),
+    limits:{fileSize: 5 * 1024 * 1024 },
+})
+/* const upload = multer({
     storage: multer.diskStorage({
         destination: function( req, file, cb){
             cb(null,'./uploads/')
@@ -30,7 +51,7 @@ const upload = multer({
             }
         }
     }
-)
+) */
 
 /* 중복유저확인 */
 router.post('/confirmUser',expressAsyncHandler( async(req,res,next)=>{
