@@ -147,7 +147,7 @@ router.get('/recipe-list',expressAsyncHandler(async (req,res,next)=>{
     console.log(type,situation,process,material,name,orderby)
     /* query 조건부 필터링 */
     if(name !== undefined){
-        recipe = recipe.filter(recipe=> recipe.name.includes(name))
+        recipe = recipe.filter(recipe=> recipe.recipeTitle.includes(name))
     }
 
     if(type !== undefined && type !== '전체'){
