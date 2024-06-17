@@ -27,7 +27,7 @@ const upload = multer({
         acl:'public-read',
         contentType: multerS3.AUTO_CONTENT_TYPE,
         key(req,file,cb){
-            cb(null,`cookingImgs/${crypto.createHash('sha256').update(uuidv4()).digest('hex')}`)
+            cb(null,`cookingImgs/${(crypto.createHash('sha256').update(Buffer.from(uuidv4(), 'utf8')).digest('hex')).slice(0, 4).map(byte => byte.toString(16).padStart(2, '0')).join('')}`)
         },
     }),
     limits:{fileSize: 2 * 1024 * 1024 },
